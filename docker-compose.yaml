@@ -1,0 +1,13 @@
+version: '3'
+services:
+  s3-server:
+    build:
+      context: .
+    ports:
+      - "9000:9000"
+    environment:
+      - STORAGE_ACCESS=${STORAGE_ACCESS}
+      - STORAGE_SECRET=${STORAGE_SECRET}
+      - STORAGE_URL=${STORAGE_URL}
+      - STORAGE_REGION=${STORAGE_REGION}
+      - STORAGE_BUCKETS=${STORAGE_BUCKETS}

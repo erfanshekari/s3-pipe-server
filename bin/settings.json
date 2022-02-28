@@ -1,0 +1,17 @@
+{
+    "allow-methods": ["GET", "OPTION"],
+    "use-cors": true,
+    "cors-config": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Request-Method": "*",
+        "Access-Control-Allow-Methods": "OPTIONS, GET",
+        "Access-Control-Allow-Headers": "*"
+    },
+    "download": {
+        "pauseable": true
+    },
+    "buckets": {
+        "allow-any": false
+    },
+    "request-timeout": 3000
+}
