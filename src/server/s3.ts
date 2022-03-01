@@ -13,6 +13,8 @@ import { handleHttpResponse } from "./http"
 
 import { Readable } from "stream"
 
+import settings from "../settings.json"
+
 const credentials = {
     accessKeyId: getEnviron("STORAGE_ACCESS"),
     secretAccessKey: getEnviron("STORAGE_SECRET")
@@ -68,15 +70,21 @@ export const handleS3ObjectPipe = async (s3object: S3Object, request: IncomingMe
 
     const range = request.headers.range
 
-    if (range) {
-        s3object.Range = range
+    const pauseable = settings.download.pauseable
+
+    if (pauseable) {
+        if (range) {
+            s3object.Range = range
+        } else {
+            s3object.Range = 'bytes 0-'
+        }
     } else {
         s3object.Range = 'bytes 0-'
     }
 
     const objectGetResponse: GetObjectCommandOutput = await createS3Client().send(new GetObjectCommand(s3object)).catch(r=>r)
 
-    if (objectGetResponse.$metadata.httpStatusCode !== 200 && objectGetResponse.$metadata.httpStatusCode !== 206) {
+    if (objectGetResponse.$metadata.httpStatusCode && objectGetResponse.$metadata.httpStatusCode !== 200 && objectGetResponse.$metadata.httpStatusCode !== 206) {
         notFound(response)
         return
     }
@@ -95,22 +103,25 @@ export const handleS3ObjectPipe = async (s3object: S3Object, request: IncomingMe
 
             res.setHeader("Content-Range", objectGetResponse.ContentRange)
     
-            const contentLength = contentLengthCaculator(objectGetResponse.ContentRange)
-            if (contentLength) {
-                res.setHeader("Content-Length", contentLength)
-            } else if (objectGetResponse.ContentLength) {
-                res.setHeader("Content-Length", objectGetResponse.ContentLength)
+            if (pauseable) {
+                const contentLength = contentLengthCaculator(objectGetResponse.ContentRange)
+                if (contentLength) {
+                    res.setHeader("Content-Length", contentLength)
+                } else if (objectGetResponse.ContentLength) {
+                    res.setHeader("Content-Length", objectGetResponse.ContentLength)
+                }
+                res.writeHead(206)
+            } else {
+                if (objectGetResponse.ContentLength) {
+                    res.setHeader("Content-Length", objectGetResponse.ContentLength)
+                }
             }
-    
-            res.writeHead(206)
+
         }
 
         const Stream: Readable = objectGetResponse.Body
     
-        // Stream.pipe(res)
         Stream.pipe(res)
-
-        // Stream.on("data", (chunk:any) => res.write(chunk))
     
         request.on("close", () => Stream.destroy())
 

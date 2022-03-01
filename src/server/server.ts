@@ -8,9 +8,13 @@ import settings from "../settings.json"
 export class S3PipeServer implements S3PipeServerInterface {
 
     port: number | undefined
+
     host: string
+
     server!: Server
+
     customHandlers: S3PipeServerCustomHandlers | undefined
+
     requestListener: S3PipeServerRequestListener
 
     constructor(customHandlers?: S3PipeServerCustomHandlers | undefined) {
@@ -28,9 +32,12 @@ export class S3PipeServer implements S3PipeServerInterface {
         }
 
         this.customHandlers = customHandlers
+
         this.requestListener = new S3PipeServerRequestListener(this.customHandlers)
+
         this.server = http.createServer(this.requestListener.createHandler())
-        // this.server.setTimeout(settings["request-timeout"])
+        
+        this.server.setTimeout(settings["request-timeout"])
     }
 
     listen(options?: ListenOptions, listeningListener?: ()=> void | undefined): Server {

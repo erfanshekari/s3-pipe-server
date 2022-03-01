@@ -1,6 +1,9 @@
 import { ServerResponse } from "http"
-import settings from "../settings.json"
+
 import { CORSConfig } from "./types"
+
+import settings from "../settings.json"
+
 
 export const handleHttpResponse = async (response: ServerResponse, customHandler: (response: ServerResponse)=> Promise<any>) : Promise<any> => {
     

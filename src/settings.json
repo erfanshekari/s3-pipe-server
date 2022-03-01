@@ -1,7 +1,8 @@
-{
-    "allow-methods": ["GET", "OPTION"],
-    
+{    
     "use-cors": true,
+    /*
+        cors is by default on but if you don't need it just change use-cors to false
+    */
 
     "cors-config": {
         "Access-Control-Allow-Origin": "*",
@@ -12,10 +13,16 @@
 
     "download": {
         "pauseable": true
+        /*
+            if you change pauseable to false user won't be able to make partial request for objects
+        */
     },
 
     "buckets": {
         "allow-any": false
+        /*
+            if you want to allow user to access any bucket that demands. set allow-any to true
+        */
     },
 
     "request-timeout": 3000

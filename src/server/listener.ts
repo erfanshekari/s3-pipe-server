@@ -19,11 +19,11 @@ import { defaultObjectResolver, handleS3ObjectPipe } from "./s3"
 import settings from "../settings.json"
 
 
-const handleHttpOptionsMethod = async (response: ServerResponse): Promise<void> => await handleHttpResponse(response, async (response)=> {
-    response.writeHead(200, {
+const handleHttpOptionsMethod = async (response: ServerResponse): Promise<void> => await handleHttpResponse(response, async res=> {
+    res.writeHead(200, {
         "Allow": "OPTIONS, GET"
     })
-    response.end()
+    res.end()
     return
 })
 
@@ -40,7 +40,7 @@ const listenerHandler = async (request: IncomingMessage, response: ServerRespons
 
     const { method, url } = request
 
-    const uri:string = ((l):string => l || "")(url)
+    const uri:string = url || ""
 
     if (method !== "OPTIONS" && method !== "GET") {
         badRequest(response)
@@ -79,6 +79,7 @@ const listenerHandler = async (request: IncomingMessage, response: ServerRespons
             notFound(response)
             return
         }
+
         await handleS3ObjectPipe(s3Object, request, response)
     }
 }
@@ -103,8 +104,6 @@ export class S3PipeServerRequestListener implements S3PipeServerRequestListenerI
 
             listenerHandler(request, response, this.customHandlers || {})
             .catch(e => {
-                // handeling Unhandeled Errors
-                console.log("UnHandeled Error")
                 console.log(e)
             })
 

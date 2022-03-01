@@ -1,6 +1,6 @@
 version: '3'
 services:
-  s3-server:
+  s3-node:
     build:
       context: .
     ports:

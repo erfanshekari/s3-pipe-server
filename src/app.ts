@@ -1,16 +1,21 @@
 
 
 import { createS3PipeServer } from "./server/server";
+import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from "http";
+import { S3PipeServerCustomHandlers } from "./server/interfaces"
 
 
-const server = createS3PipeServer({
-    requestListener: (request, response) => {
-        console.log(request, response)
+const serverConfig: S3PipeServerCustomHandlers = {
+    requestListener: (request: IncomingMessage, response: ServerResponse) => {
+
     },
-    authenticate: async headers => {
+    authenticate: async (headers: IncomingHttpHeaders): Promise<boolean> => {
+        
         return true
-    },
-    resolveObject: url => ({Key: "", Bucket: "" })
-})
+    }
+}
 
+const server = createS3PipeServer(serverConfig)
+
+// default listen on port 9000
 server.listen()
