@@ -1,5 +1,5 @@
 {
-  "name": "vod",
+  "name": "node.js-s3-pipe-server",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",

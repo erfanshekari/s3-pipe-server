@@ -1,7 +1,5 @@
 # Node.js S3 Pipe Server
 
-  
-
 If you are are using AWS S3 service and you want to serve s3 objects on your own. then you came to the right place! S3 Pipe Server give you some additional features like custom authentication, CORS support, pauseable download by choice and etc...
 
 # Features
@@ -25,23 +23,23 @@ You can clone this repo in your project and use it based on your use case!
 
 **Docker**
 ````shell
-git clone https://github.com/erfanshekari/node-s3-pipe-server
-cd node-s3-pipe-server
+git clone https://github.com/erfanshekari/node.js-s3-pipe-server
+cd node.js-s3-pipe-server
 docker build -t s3-server .
 ````
 
 **Docker-Compose**
 
 ````shell
-git clone https://github.com/erfanshekari/node-s3-pipe-server
-cd node-s3-pipe-server
+git clone https://github.com/erfanshekari/node.js-s3-pipe-server
+cd node.js-s3-pipe-server
 docker-compose up -d
 ````
 
 **Node.js Example App**
 ````shell
-git clone https://github.com/erfanshekari/node-s3-pipe-server
-cd node-s3-pipe-server
+git clone https://github.com/erfanshekari/node.js-s3-pipe-server
+cd node.js-s3-pipe-server
 yarn
 yarn build
 yarn start
