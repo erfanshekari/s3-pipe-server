@@ -7,6 +7,7 @@ export type outGoingHTTPHeaders = {
     "Conetnt-Type"?: HTTPHeaderValue
     "Conetnt-Length"?: HTTPHeaderValue
     "Conetnt-Range"?: HTTPHeaderValue
+    "Accept-Ranges"? : HTTPHeaderValue
 }
 
 export type S3Object = {
