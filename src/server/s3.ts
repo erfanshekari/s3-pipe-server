@@ -33,8 +33,8 @@ export const createS3Client: () => S3Client = (): S3Client =>
   new S3Client(s3Config);
 
 export const parseBucketFromURI = (uri: string): string => {
-  const splited = uri.split('/');
-  return (splited.length < 1 && '') || splited[1];
+  const splitted = uri.split('/');
+  return (splitted.length < 1 && '') || splitted[1];
 };
 
 export const parseObjectKeyFromURI = (uri: string): string => {
@@ -54,10 +54,10 @@ export const defaultObjectResolver = (uri: string): S3Object => ({
   Key: parseObjectKeyFromURI(uri),
 });
 
-const contentLengthCaculator = (contentRange: string): number => {
-  const splited: Array<string> = contentRange.split(' ');
-  if (splited.length === 2) {
-    const bytesRange = splited[1]
+const contentLengthCalculator = (contentRange: string): number => {
+  const splitted: Array<string> = contentRange.split(' ');
+  if (splitted.length === 2) {
+    const bytesRange = splitted[1]
       .split('/')[0]
       .split('-')
       .map((v) => parseInt(v));
@@ -113,7 +113,7 @@ export const handleS3ObjectPipe = async (
       res.setHeader('Content-Range', objectGetResponse.ContentRange);
 
       if (pauseable) {
-        const contentLength = contentLengthCaculator(
+        const contentLength = contentLengthCalculator(
           objectGetResponse.ContentRange,
         );
         if (contentLength) {
