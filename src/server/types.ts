@@ -1,9 +1,9 @@
 export type HTTPHeaderValue = string | number | readonly string[];
 
 export type outGoingHTTPHeaders = {
-  'Conetnt-Type'?: HTTPHeaderValue;
-  'Conetnt-Length'?: HTTPHeaderValue;
-  'Conetnt-Range'?: HTTPHeaderValue;
+  'Content-Type'?: HTTPHeaderValue;
+  'Content-Length'?: HTTPHeaderValue;
+  'Content-Range'?: HTTPHeaderValue;
   'Accept-Ranges'?: HTTPHeaderValue;
 };
 
